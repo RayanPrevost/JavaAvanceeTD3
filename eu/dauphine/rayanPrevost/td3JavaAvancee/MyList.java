@@ -1,13 +1,10 @@
 package eu.dauphine.rayanPrevost.td3JavaAvancee;
 
-
+/*
 public class MyList {
 	private Cell premiereCellule;
 
-	/**
-	 * Méthode add(String) ajoutant une cellule contenant la String en parametre en tête de liste.
-	 * @param string
-	 */
+	
 	public void add(String string) {
 		if(string == null) {
 			throw new NullPointerException();
@@ -16,10 +13,7 @@ public class MyList {
 		premiereCellule = new Cell(string,ancienPremier);
 	}
 	
-	/**
-	 * Méthode permettant de savoir si la liste est vide
-	 * @return true si elle est vide, false sinon
-	 */
+
 	public boolean isVide() {
 		boolean res = false;
 		if(this.premiereCellule == null) {
@@ -27,10 +21,7 @@ public class MyList {
 		}
 		return res;
 	}
-	/**
-	 * Méthode size() permettant de connaître la taille de la liste.
-	 * @return taille qui corresponds à la taille de la liste.
-	 */
+
 	public int size() {
 		int taille = 0;
 		
@@ -44,9 +35,6 @@ public class MyList {
 		return taille;
 	}
 
-	/**
-	 * Méthode permettant l'affiche des éléments de la liste chain
-	 */
 	@Override
 	public String toString() {
 		String res = "";
@@ -64,10 +52,7 @@ public class MyList {
 		return res;
 	}
 	
-	/**
-	 * Méthode retournant la dernier cellule de la liste
-	 * @return
-	 */
+
 	public Cell getDernierElement() {
 		Cell dernier = this.premiereCellule;
 		while (dernier.getCelluleSuivante() != null) {
@@ -76,9 +61,7 @@ public class MyList {
 		return dernier;
 	}
 	
-	/**
-	 * Méthode permettant l'ajout de l'élément celle à la fin de la liste.
-	 */
+
 	public void addLast(String contenu) {
 		if(this.isVide()) {
 			this.premiereCellule = new Cell();
@@ -93,11 +76,7 @@ public class MyList {
 		
 	}
 
-	/**
-	 * Méthode permettant d'ajouter une cellule apres la cellule d'indice indice de la liste
-	 * @param contenue String representant le contenue de la cellule 
-	 * @param indice Int representant l'indice de la cellule apres laquel on souhaite insérer la nouvelle cellule
-	 */
+
 	public void add(String contenu, int indice) {
 		Cell cellBefore = this.getCellule(indice);
 		Cell cellAfter = this.getCellule(indice+1);
@@ -110,12 +89,7 @@ public class MyList {
 		cell.setCelluleSuivante(cellAfter);
 	}
 	
-	/**
-	 * Méthode retournant le contenue de la cellule selon son indice
-	 * retourne une erreur de type IllegalArgumentException si l'indice est plus grand que la taille de la liste ou inférieru à zéro
-	 * @param index Indice de la cellule pour laquel on souhaite connaitre son contenu
-	 * @return
-	 */
+
 	public String get(int index) {
 		String res = "";
 		Cell cellule = this.premiereCellule;
@@ -134,12 +108,6 @@ public class MyList {
 		return res;
 	}
 
-	/**
-	 * Cette méthode permet de retourner la cellule presente à un indice precis.
-	 * retourne une erreur de type IllegalArgumentException si l'indice est plus grand que la taille de la liste ou inférieru à zéro
-	 * @param index
-	 * @return
-	 */
 	public Cell getCellule(int index) {	
 		Cell res = new Cell();
 		Cell cellule = this.premiereCellule;
@@ -160,26 +128,17 @@ public class MyList {
 	}
 	
 	
-	/**
-	 * Getters pour connaitre la premiere cellule de la liste
-	 * @return
-	 */
+
 	public Cell getPremiereCellule() {
 		return premiereCellule;
 	}
 
-	/** 
-	 * Setter pour mettre une Cell en tant que premiere Cellule
-	 * @param premiereCellule
-	 */
+	
 	public void setPremiereCellule(Cell premiereCellule) {
 		this.premiereCellule = premiereCellule;
 	}
 	
-	/**
-	 * Méthode renvoyant la somme des lettres contenues dans la liste
-	 * @return
-	 */
+	
 	public int sumLetter() {
 		int res = 0; 
 		Cell cellule = this.premiereCellule;
@@ -211,9 +170,195 @@ public class MyList {
 			
 			System.out.println(e.getMessage());
 		}
-		
-		
-		
-		
+			
 	}
 }
+*/
+
+public class MyList<T> {
+	private Cell<T> premiereCellule;
+	private static int taille;
+	
+    public MyList(Cell<T> first) {
+        this.premiereCellule = first;
+    }
+
+   
+    public MyList() {
+    }
+    
+	public void add(T contenu) {
+		taille++;
+		if(premiereCellule == null) {
+			throw new NullPointerException();
+		}
+		Cell<T> ancienPremier = premiereCellule;
+		premiereCellule = new Cell<T>(contenu);
+		premiereCellule.setCelluleSuivante(ancienPremier);
+		
+	}
+	
+	public int size() {
+		return taille;
+	}
+	
+	public boolean isVide() {
+		boolean res = false;
+		if(this.premiereCellule == null) {
+			res = true;
+		}
+		return res;
+	}
+	
+	@Override
+	public String toString() {
+		String res = "";
+		Cell<T> cellule = premiereCellule;
+		
+		for (int i = 0; i < size(); i++) {
+			if(cellule == this.getDernierElement()) {
+				res += cellule.getContenu()+"";
+			}else {
+				res += cellule.getContenu()+", ";	
+			}
+			cellule = cellule.getCelluleSuivante();
+		}
+		
+		return res;
+	}
+	
+
+	public Cell<T> getDernierElement() {
+		Cell<T> dernier = this.premiereCellule;
+		while (dernier.getCelluleSuivante() != null) {
+			dernier= dernier.getCelluleSuivante();
+		}
+		return dernier;
+	}
+	
+
+	public void addLast(T contenu) {
+		if(this.isVide()) {
+			this.premiereCellule = new Cell<T>();
+			this.premiereCellule.setContenu(contenu);
+		} else {
+			
+			Cell<T> dernier = getDernierElement();
+			Cell<T> cell = new Cell<T>();
+			cell.setContenu(contenu);
+			dernier.setCelluleSuivante(cell);	
+		}	
+		
+	}
+	
+	
+	public void add(T contenu, int indice) {
+		Cell<T> cellBefore = this.getCellule(indice);
+		Cell<T> cellAfter = this.getCellule(indice+1);
+		
+		Cell<T> cell = new Cell<T>();
+		
+		cellBefore.setCelluleSuivante(cell);
+		
+		cell.setContenu(contenu);
+		cell.setCelluleSuivante(cellAfter);
+	}
+	
+
+	public T get(int index) {
+		T res = null;
+		Cell<T> cellule = this.premiereCellule;
+		int i = 0;
+		if(index >=size() || index < 0) {
+			throw new IllegalArgumentException("Out of bounds");
+		}else {
+			while ( i < size()) {		
+				if( i == index) {
+					res = cellule.getContenu();
+				}
+				cellule = cellule.getCelluleSuivante();
+				i++;
+			}	
+		}
+		return res;
+	}
+
+	public Cell<T> getCellule(int index) {	
+		Cell<T> res = new Cell<T>();
+		Cell<T> cellule = this.premiereCellule;
+		int i = 0;
+		if(index >=size() || index < 0) {
+			throw new IllegalArgumentException("Out of bounds");
+		}else {
+			while ( i < size()) {		
+				if( i == index) {
+					res = cellule;
+				}
+				cellule = cellule.getCelluleSuivante();
+				i++;
+			}	
+		}
+		return res;
+				
+	}
+	
+	
+
+	public Cell<T> getPremiereCellule() {
+		return premiereCellule;
+	}
+
+	
+	public void setPremiereCellule(Cell<T> premiereCellule) {
+		this.premiereCellule = premiereCellule;
+	}
+	
+	
+	public int sumLetter() {
+		int res = 0; 
+		Cell<T> cellule = this.premiereCellule;
+		for (int i = 0; i < size(); i++) {
+			//System.out.println(cellule.getSizeContenu());
+			res += cellule.getContenu().toString().length();	
+			cellule = cellule.getCelluleSuivante();	
+		}
+		return res;
+	}
+
+	public boolean contains(T value) {
+		boolean res = false;
+		Cell<T> premiereCellule = this.premiereCellule;
+		
+		while(premiereCellule != null) {
+			if(premiereCellule.getContenu().equals(value)) {
+				res = true;
+				premiereCellule = premiereCellule.getCelluleSuivante();
+			}
+		}
+		return res;
+	}
+
+	
+	public static void main(String[] args) {
+		MyList<Object> list = new MyList<Object>();
+
+        Object tatu = new Object();
+        Object toto = new Object();
+        Object titi = new Object();
+        Object tutu = new Object();
+
+        list.addLast(tatu);
+        list.add(toto);
+        list.add(tutu);
+        
+        
+        System.out.println(list.toString());
+        
+
+        System.out.println(list.size());
+        //System.out.println("List contains titi : " + m.contains(titi));
+        //System.out.println("Sumletters : " + m.sumLetter());
+	}
+
+}
+
